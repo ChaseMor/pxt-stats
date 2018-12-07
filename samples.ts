@@ -33,8 +33,51 @@ namespace stats {
         /**
          * @param data the data that is being sampled
          */
-        constructor(data: number[]) {
-            this.data = data;
+        constructor(data?: number[]) {
+            if (!data){
+                this.data = [];
+            } else {
+                this.data = data;
+            }
+        }
+
+        /**
+         * Add a new data point to the sample
+         * 
+         * @param newData the new data point to be added
+         */
+        addData(newData: number) {
+            this.data.push(newData);
+            this.clearProperties();
+        }
+
+        /**
+         * Adds an array of data points to the sample
+         * 
+         * @param newData the data points to be added
+         */
+        concatData(newData: number[]) {
+            for (let value of newData) {
+                this.data.push(value);
+            }
+            this.clearProperties();
+        }
+
+        /**
+         * Clears all pre-computed values
+         */
+        private clearProperties() {
+            this.mean = undefined;
+            this.sum = undefined;
+            this.std = undefined;
+            this.var = undefined;
+        }
+
+        /**
+         * Sorts the data set
+         */
+        sort() {
+            this.data.sort();
         }
 
         /**
