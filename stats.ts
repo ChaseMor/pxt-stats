@@ -1,6 +1,17 @@
 namespace stats {
 
     /**
+     * Gets the average of the two numbers
+     * 
+     * @param a The first number
+     * @param b The second number
+     * @returns the average of the two numbers
+     */
+    export function average(a: number, b: number) {
+        return (a + b) / 2;
+    }
+
+    /**
      * Gets the factorial of the number given
      * @param n the number the operation is perfomed on
      * @returns the factorial of the number given

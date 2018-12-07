@@ -75,7 +75,7 @@ namespace stats {
             this.nextGauss = this.std * (Math.sqrt(-2 * Math.log(v1)) * Math.cos(2 * Math.PI * v2)) + this.avg;
             return this.std * (Math.sqrt(-2 * Math.log(v2)) * Math.cos(2 * Math.PI * v1)) + this.avg;
         }
-
+        
         /**
          * Gets the mean value of the distribution
          * 
