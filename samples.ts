@@ -34,7 +34,7 @@ namespace stats {
          * @param data the data that is being sampled
          */
         constructor(data?: number[]) {
-            if (!data){
+            if (!data) {
                 this.data = [];
             } else {
                 this.data = data;
@@ -78,6 +78,34 @@ namespace stats {
          */
         sort() {
             this.data.sort();
+        }
+
+        /**
+         * Gets the data value at the specific index
+         * 
+         * @param index the index of the data
+         * @returns the data value at the specific index
+         */
+        getDataAtIndex(index: number) : number{
+            if (index >= this.getCount() || index < 0) {
+                return undefined;
+            } else {
+                return this.data[index];
+            }
+        }
+
+        /**
+         * Sets the data value at the specific index
+         *
+         * @param index value the data value at the specific index
+         * @param data the data to be set at the specifc index
+         */
+        setDataAtIndex(index: number) {
+            if (index >= this.getCount() || index < 0) {
+                return undefined;
+            } else {
+                return this.data[index];
+            }
         }
 
         /**
@@ -144,4 +172,4 @@ namespace stats {
             return this.std;
         }
     }
-} 
+}

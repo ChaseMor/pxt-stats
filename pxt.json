@@ -10,7 +10,8 @@
         "main.ts",
         "stats.ts",
         "distributions.ts",
-        "samples.ts"
+        "samples.ts",
+        "multisample.ts"
     ],
     "testFiles": [
         "test.ts"
