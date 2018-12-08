@@ -3,7 +3,7 @@ namespace stats {
     /**
      * Defines the usage of a Distribution
      */
-    interface Distribution {
+    interface Generator {
 
         /**
          * Generates a random number
@@ -29,8 +29,8 @@ namespace stats {
     /**
      * A Distribution that generates numbers based on a normal distribution
      */
-    export class NormalDistribution implements Distribution {
-        
+    export class NormalGenerator implements Generator {
+
         /**
          * The mean (or average) value of the distribution
          */
@@ -75,7 +75,7 @@ namespace stats {
             this.nextGauss = this.std * (Math.sqrt(-2 * Math.log(v1)) * Math.cos(2 * Math.PI * v2)) + this.avg;
             return this.std * (Math.sqrt(-2 * Math.log(v2)) * Math.cos(2 * Math.PI * v1)) + this.avg;
         }
-        
+
         /**
          * Gets the mean value of the distribution
          * 
@@ -93,7 +93,7 @@ namespace stats {
         standardDeviation(): number {
             return this.std;
         }
-        
+
         /**
          * Gets the variance of the distribution
          * 
@@ -102,5 +102,58 @@ namespace stats {
         variance(): number {
             return this.std * this.std;
         }
+    }
+
+    export class GeometricGenerator implements Generator {
+
+        /**
+         * The parameter of the distribution
+         */
+        private lambda: number;
+
+        constructor(lambda: number) {
+            this.lambda = lambda;
+        }
+        /**
+         * Gets a random number generated using a specified given normal (Gaussian) distribution
+         * 
+         * @returns a random number generated with the probability denisity of a normal distribution
+         */
+        generateRandom(): number {
+            // CDF: 1 − e^(−λx)
+            // r = 1 - e^(−λx)
+            // r = e^(−λx)
+            // ln(r) = (−λx)
+            // x = ln(r)/ −λ
+            return -Math.log(Math.random()) / this.lambda;
+        }
+
+        /**
+         * Gets the mean value of the distribution
+         * 
+         * @returns the mean value of the distribution
+         */
+        mean(): number {
+            return 1 / this.lambda;
+        }
+
+        /**
+         * Gets the standard deviation of the distribution
+         * 
+         * @returns the standard deviation of the distribution
+         */
+        standardDeviation(): number {
+            return 1 / this.lambda;
+        }
+
+        /**
+         * Gets the variance of the distribution
+         * 
+         * @returns the variance of the distribution
+         */
+        variance(): number {
+            return 1 / (this.lambda * this.lambda);
+        }
+
     }
 }

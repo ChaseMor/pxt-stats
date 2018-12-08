@@ -5,9 +5,11 @@ for (let i = 0; i < 160; i++) {
     arr.push(1);
 }
 
-let normGen: stats.NormalDistribution = new stats.NormalDistribution(80, 10);
+let normGen: stats.NormalGenerator = new stats.NormalGenerator(80, 10);
+let geoGen: stats.GeometricGenerator = new stats.GeometricGenerator(1 / 20);
+
 for (let i = 0; i < 20000; i++) {
-    let num: number = Math.trunc(normGen.generateRandom());
+    let num: number = Math.trunc(geoGen.generateRandom());
     data.push(num);
     if (num >= 0 && num < 160) {
         arr[num] += 0.1;
