@@ -107,17 +107,21 @@ namespace stats {
     export class GeometricGenerator implements Generator {
 
         /**
-         * The parameter of the distribution
+         * The standard deviation of the distribution
          */
-        private lambda: number;
+        private std: number;
 
-        constructor(lambda: number) {
-            this.lambda = lambda;
-        }
         /**
-         * Gets a random number generated using a specified given normal (Gaussian) distribution
+         * @param lambda the parameter for the distribution
+         */
+        constructor(lambda: number) {
+            this.std = 1 / lambda;
+        }
+
+        /**
+         * Gets a random number generated using a specified given geometric distribution
          * 
-         * @returns a random number generated with the probability denisity of a normal distribution
+         * @returns a random number generated with the probability denisity of a geometric distribution
          */
         generateRandom(): number {
             // CDF: 1 − e^(−λx)
@@ -125,7 +129,7 @@ namespace stats {
             // r = e^(−λx)
             // ln(r) = (−λx)
             // x = ln(r)/ −λ
-            return -Math.log(Math.random()) / this.lambda;
+            return -Math.log(Math.random()) * this.std;
         }
 
         /**
@@ -134,7 +138,7 @@ namespace stats {
          * @returns the mean value of the distribution
          */
         mean(): number {
-            return 1 / this.lambda;
+            return this.std;
         }
 
         /**
@@ -143,7 +147,7 @@ namespace stats {
          * @returns the standard deviation of the distribution
          */
         standardDeviation(): number {
-            return 1 / this.lambda;
+            return this.std;
         }
 
         /**
@@ -152,7 +156,7 @@ namespace stats {
          * @returns the variance of the distribution
          */
         variance(): number {
-            return 1 / (this.lambda * this.lambda);
+            return this.std * this.std;
         }
 
     }
