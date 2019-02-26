@@ -89,6 +89,32 @@ namespace stats {
         }
 
         /**
+         * Gets the x value of the data point at the given index
+         * 
+         * @param index the index of the specified data point
+         * @returns the x value of the data point at the specified index
+         */
+        getXAtIndex(index: number): number {
+            if (index < 0 || index >= this.length()) {
+                return undefined;
+            }
+            return this.x.getDataAtIndex(index);
+        }
+
+        /**
+         * Gets the y value of the data point at the given index
+         * 
+         * @param index the index of the specified data point
+         * @returns the x value of the data point at the specified index
+         */
+        getYAtIndex(index: number): number {
+            if (index < 0 || index >= this.length()) {
+                return undefined;
+            }
+            return this.y.getDataAtIndex(index);
+        }
+
+        /**
          * Gets the data point at the given index
          * 
          * @param index the index of the specified data point
@@ -99,6 +125,32 @@ namespace stats {
                 return [];
             }
             return [this.x.getDataAtIndex(index), this.y.getDataAtIndex(index)]
+        }
+
+        /**
+         * Sets the x value of the data point at the given index
+         *
+         * @param index the index of the specified data point
+         * @param x the new value that is being set
+         */
+        setXAtIndex(index: number, x: number) {
+            if (index < 0 || index >= this.length()) {
+                return;
+            }
+            this.x.setDataAtIndex(index, x);
+        }
+
+        /**
+         * Sets the y value of the data point at the given index
+         *
+         * @param index the index of the specified data point
+         * @param y the new value that is being set
+         */
+        setYAtIndex(index: number, y: number) {
+            if (index < 0 || index >= this.length()) {
+                return;
+            }
+            this.y.setDataAtIndex(index, y);
         }
 
         /**
@@ -195,6 +247,29 @@ namespace stats {
          */
         getStandardDeviationY(): number {
             return this.y.getStandardDeviation();
+        }
+
+        /**
+         * Finds and returns the coefficients of the line of best fit
+         * 
+         * @returns the coefficients of the line of best fit in an array 
+         *      with the form [slope, intercept]
+         */
+        getLineOfBestFit(): number[] {
+            let slope: number = 0;
+            for (let i = 0; i < this.length(); i++) {
+                slope += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
+            }
+            let squareX: number  = 0;
+
+            for (let i = 0; i < this.length(); i++) {
+                squareX += (this.getXAtIndex(i) - this.getMeanX()) ** 2;
+            }
+            slope /= squareX;
+
+            let intercept: number = this.getMeanY() - slope * this.getMeanX();
+
+            return [slope, intercept];
         }
     }
 } 
