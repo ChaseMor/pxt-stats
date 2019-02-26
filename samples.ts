@@ -3,7 +3,7 @@ namespace stats {
     /**
      * A sampling of data
      */
-    export class Sample {
+    export class DataSample {
 
         /**
          * The data used
@@ -100,12 +100,11 @@ namespace stats {
          * @param index value the data value at the specific index
          * @param data the data to be set at the specifc index
          */
-        setDataAtIndex(index: number) {
+        setDataAtIndex(index: number, data: number) {
             if (index >= this.getCount() || index < 0) {
-                return undefined;
-            } else {
-                return this.data[index];
+                return;
             }
+            this.data[index] = data;
         }
 
         /**

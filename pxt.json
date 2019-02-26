@@ -11,10 +11,12 @@
         "stats.ts",
         "distributions.ts",
         "samples.ts",
-        "multisample.ts"
+        "multisample.ts",
+        "dataset.ts"
     ],
     "testFiles": [
         "test.ts"
     ],
-    "public": false
+    "public": false,
+    "installedVersion": "workspace:c5a8f515-54ed-4dbf-6938-235f5a074ad6"
 }

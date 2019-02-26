@@ -16,7 +16,7 @@ for (let i = 0; i < 20000; i++) {
     }
 }
 
-let sample: stats.Sample = new stats.Sample(data);
+let sample: stats.DataSample = new stats.DataSample(data);
 
 console.logValue("mean", sample.getMean());
 console.logValue("sum", sample.getSum());

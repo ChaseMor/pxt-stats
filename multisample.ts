@@ -3,36 +3,31 @@ namespace stats {
     /**
      * A multi-dimensional sampling of data
      */
-    export class MultiDimensionSample {
+    export class LargeDataSet {
 
         /**
          * The data being sampled
          */
-        private data: Sample[];
+        private data: DataSample[];
 
         /**
          * @param numOfDimensions
          * @param data the data that is being sampled
          */
-        constructor(numOfDimensions: number, data?: number[][]) {
-            if (numOfDimensions < 0) {
-                numOfDimensions = 0;
+        constructor(data: number[][]) {
+            if (!data) {
+                return;
             }
-            if (data.length < numOfDimensions) {
-                numOfDimensions = data.length;
-            }
+            // In case of dimensions having different lengths, use the shortest
             let minWidth: number;
             for (let dataArr of data) {
                 if (!minWidth || minWidth > dataArr.length) {
                     minWidth = dataArr.length;
                 }
             }
-            for (let i = 0; i < numOfDimensions; i++) {
-                if (data) {
-                    this.data[i] = new Sample(data[i].slice(0, minWidth));
-                } else {
-                    this.data[i] = new Sample();
-                }
+
+            for (let i = 0; i < data.length; i++) {
+                this.data[i] = new DataSample(data[i].slice(0, minWidth));
             }
         }
 
@@ -64,10 +59,49 @@ namespace stats {
 
         /**
          * Sorts the data set
+         * @param index sorts the DataSet based on the given index
          */
-        sort() {
+        sort(index: number) {
+            if (index < 0 || index >= this.data.length) {
+                // Invalid index
+                return;
+            }
+            this.sortByIndex(index);
+        }
+
+        /**
+         * Gets the data point at the given index
+         * 
+         * @param index the index of the specified data point
+         * @returns the data point at the specified index
+         */
+        getDataAtIndex(index: number): number[] {
+            if (index < 0 || index >= this.length()) {
+                return [];
+            }
+            let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                this.data[i].sort();
+                out.push(this.data[i].getDataAtIndex(index));
+            }
+            return out;
+        }
+
+        /**
+         * Sets the data point at the given index with the given values
+         * 
+         * @param index the index of the specified data point
+         * @param x the x value the data point should be changed to
+         * @param y the y value the data point should be changed to
+         */
+        setDataAtIndex(index: number, data: number[]) {
+            if (index < 0 || index >= this.length()) {
+                return;
+            }
+            if (data.length != this.getNumOfDim()) {
+                return;
+            }
+            for (let i = 0; i < data.length; i++) {
+                this.data[i].setDataAtIndex(index, data[i]);
             }
         }
 
@@ -188,7 +222,7 @@ namespace stats {
          * 
          * @returns the number of data points in the data set
          */
-        getCount(): number {
+        length(): number {
             if (this.getNumOfDim() > 0) {
                 return this.data[0].getCount();
             } else {
