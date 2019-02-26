@@ -85,7 +85,7 @@ namespace stats {
                 this.y.setDataAtIndex(j, this.y.getDataAtIndex(i));
                 this.x.setDataAtIndex(i, temp[0]);
                 this.y.setDataAtIndex(i, temp[1]);
-            }    
+            }
         }
 
         /**
@@ -187,6 +187,42 @@ namespace stats {
         }
 
         /**
+         * Gets the min x value of the data
+         * 
+         * @returns the min x value of the data
+         */
+        getMinX(): number {
+            return this.x.getMin();
+        }
+
+        /**
+         * Gets the min y value of the data
+         * 
+         * @returns the min y value of the data
+         */
+        getMinY(): number {
+            return this.y.getMin();
+        }
+
+        /**
+         * Gets the max x value of the data
+         * 
+         * @returns the max x value of the data
+         */
+        getMaxX(): number {
+            return this.x.getMax();
+        }
+
+        /**
+         * Gets the max y value of the data
+         * 
+         * @returns the max y value of the data
+         */
+        getMaxY(): number {
+            return this.y.getMax();
+        }
+
+        /**
          * Gets the total sum of the x axis of the data
          * 
          * @returns the total sum of the x axis of the data
@@ -260,7 +296,7 @@ namespace stats {
             for (let i = 0; i < this.length(); i++) {
                 slope += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
             }
-            let squareX: number  = 0;
+            let squareX: number = 0;
 
             for (let i = 0; i < this.length(); i++) {
                 squareX += (this.getXAtIndex(i) - this.getMeanX()) ** 2;

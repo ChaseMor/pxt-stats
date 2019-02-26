@@ -31,6 +31,16 @@ namespace stats {
         private var: number;
 
         /**
+         * The smallest value in the data
+         */
+        private min: number;
+
+        /**
+         * The largest value in the data
+         */
+        private max: number;
+
+        /**
          * @param data the data that is being sampled
          */
         constructor(data?: number[]) {
@@ -71,6 +81,8 @@ namespace stats {
             this.sum = undefined;
             this.std = undefined;
             this.var = undefined;
+            this.min = undefined;
+            this.max = undefined;
         }
 
         /**
@@ -105,6 +117,7 @@ namespace stats {
                 return;
             }
             this.data[index] = data;
+            this.clearProperties();
         }
 
         /**
@@ -169,6 +182,52 @@ namespace stats {
                 this.std = Math.sqrt(this.getVariance());
             }
             return this.std;
+        }
+
+        /**
+         * Gets smallest value in the data
+         * 
+         * @returns the smallest value in the data
+         */
+        getMin(): number {
+            if (!this.min) {
+                this.calculateMinMax();
+            }
+            return this.min;
+        }
+
+        /**
+         * Gets the largest value in the data
+         * 
+         * @returns the largest value in the data
+         */
+        getMax(): number {
+            if (!this.max) {
+                this.calculateMinMax();
+            }
+            return this.max;
+        }
+
+        /**
+         * Calculates the min and max values of the data
+         */
+        private calculateMinMax() {
+            if (this.data.length == 0) {
+                return;
+            }
+            let min: number = this.data[0];
+            let max: number = this.data[0];
+
+            for (let i = 1; i < this.data.length; i++) {
+                if (this.data[i] < min) {
+                    min = this.data[i];
+                }
+                if (this.data[i] > max) {
+                    max = this.data[i];
+                }
+            }
+            this.min = min;
+            this.max = max;
         }
     }
 }

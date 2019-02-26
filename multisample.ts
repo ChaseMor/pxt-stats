@@ -58,18 +58,6 @@ namespace stats {
         }
 
         /**
-         * Sorts the data set
-         * @param index sorts the DataSet based on the given index
-         */
-        sort(index: number) {
-            if (index < 0 || index >= this.data.length) {
-                // Invalid index
-                return;
-            }
-            this.sortByIndex(index);
-        }
-
-        /**
          * Gets the data point at the given index
          * 
          * @param index the index of the specified data point
@@ -90,8 +78,7 @@ namespace stats {
          * Sets the data point at the given index with the given values
          * 
          * @param index the index of the specified data point
-         * @param x the x value the data point should be changed to
-         * @param y the y value the data point should be changed to
+         * @param data the new data point should be changed to
          */
         setDataAtIndex(index: number, data: number[]) {
             if (index < 0 || index >= this.length()) {
@@ -108,7 +95,7 @@ namespace stats {
         /**
          * Gets the average value of the data
          * 
-         * @returns the average value of the data
+         * @returns the average value of all dimensions of the data
          */
         getMean(): number[] {
             let out: number[] = [];
@@ -119,9 +106,35 @@ namespace stats {
         }
 
         /**
-         * Gets the total sum of the data
+         * Gets the min values of the data
          * 
-         * @returns the total sum of the data
+         * @returns the min values of all dimensions of the data
+         */
+        getMin(): number[] {
+            let out: number[] = [];
+            for (let i = 0; i < this.getNumOfDim(); i++) {
+                out.push(this.data[i].getMin());
+            }
+            return out;
+        }
+
+        /**
+         * Gets the max values of the data
+         * 
+         * @returns the max values of all dimensions of the data
+         */
+        getMax(): number[] {
+            let out: number[] = [];
+            for (let i = 0; i < this.getNumOfDim(); i++) {
+                out.push(this.data[i].getMax());
+            }
+            return out;
+        }
+
+        /**
+         * Gets the total sum of all dimensions of the data
+         * 
+         * @returns the total sum of all dimensions of the data
          */
         getSum(): number[] {
             let out: number[] = [];
@@ -141,9 +154,9 @@ namespace stats {
         }
 
         /**
-         * Gets the variance of the data
+         * Gets the variance of all dimensions of the data
          * 
-         * @returns the variance of the data
+         * @returns the variance of all dimensions of the data
          */
         getVariance(): number[] {
             let out: number[] = [];
@@ -154,9 +167,9 @@ namespace stats {
         }
 
         /**
-         * Gets the standard deviation of the data
+         * Gets the standard deviation of all dimensions of the data
          * 
-         * @returns the standard deviation of the data
+         * @returns the standard deviation of all dimensions of the data
          */
         getStandardDeviation(): number[] {
             let out: number[] = [];
@@ -168,8 +181,10 @@ namespace stats {
 
         /**
          * Sorts the data set based on the given dimension
+         * 
+         * @param dimension the specified dimension that is the basis of the sort
          */
-        sortByIndex(dimension: number) {
+        sortByDim(dimension: number) {
             if (dimension < this.getNumOfDim() && dimension > 0) {
                 // simple selection sort.
                 for (let i = 0; i < this.getNumOfDim() - 1; i++) {
@@ -190,30 +205,62 @@ namespace stats {
         }
 
         /**
-         * Gets the average value of the data at the specific index
+         * Gets the average value of the data at the specific dimension
          * 
-         * @returns the average value of the data at the specific index
-         *  undefined if the given index does not map to a dimension in the sample
+         * @param dimension the specified dimension
+         * @returns the average value of the data at the specific dimension
+         *  undefined if the given dimension does not map to a dimension in the sample
          */
-        getMeanByIndex(index: number): number {
-            if (index >= this.getNumOfDim() || index < 0) {
+        getMeanByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
                 return undefined;
             } else {
-                return this.data[index].getMean();
+                return this.data[dimension].getMean();
             }
         }
 
         /**
-         * Gets the total sum of the data at the specific index
+         * Gets the min value of the data at the specific dimension
          * 
-         * @returns the total sum of the data at the specific index
-         *  undefined if the given index does not map to a dimension in the sample
+         * @param dimension the specified dimension
+         * @returns the min value of the data at the specific dimension
+         *  undefined if the given dimension does not map to a dimension in the sample
          */
-        getSumByIndex(index: number): number {
-            if (index >= this.getNumOfDim() || index < 0) {
+        getMinByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
                 return undefined;
             } else {
-                return this.data[index].getSum();
+                return this.data[dimension].getMin();
+            }
+        }
+
+        /**
+         * Gets the max value of the data at the specific dimension
+         * 
+         * @param dimension the specified dimension
+         * @returns the max value of the data at the specific dimension
+         *  undefined if the given dimension does not map to a dimension in the sample
+         */
+        getMaxByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
+                return undefined;
+            } else {
+                return this.data[dimension].getMax();
+            }
+        }
+
+        /**
+         * Gets the total sum of the data at the specific dimension
+         *
+         * @param dimension the specified dimension
+         * @returns the total sum of the data at the specific dimension
+         *  undefined if the given dimension does not map to a dimension in the sample
+         */
+        getSumByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
+                return undefined;
+            } else {
+                return this.data[dimension].getSum();
             }
         }
 
@@ -233,14 +280,15 @@ namespace stats {
         /**
          * Gets the variance of the data at the specific index
          * 
+         * @param dimension
          * @returns the variance of the data at the specific index
          *  undefined if the given index does not map to a dimension in the sample
          */
-        getVarianceByIndex(index: number): number {
-            if (index >= this.getNumOfDim() || index < 0) {
+        getVarianceByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
                 return undefined;
             } else {
-                return this.data[index].getVariance();
+                return this.data[dimension].getVariance();
             }
         }
 
