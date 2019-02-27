@@ -190,16 +190,16 @@ namespace stats {
                 for (let i = 0; i < this.getNumOfDim() - 1; i++) {
                     for (let j = i + 1; j < this.getNumOfDim(); j++) {
                         if (this.data[dimension].getDataAtIndex(i) > this.data[dimension].getDataAtIndex(j)) {
-                            swap(i, j);
+                            swap(this.data, i, j);
                         }
                     }
                 }
             }
-            function swap(i: number, j: number) {
-                for (let k = 0; k < this.getNumOfDim(); k++) {
-                    let temp: number = this.data[k].getDataAtIndex(j);
-                    this.data[k].getDataAtIndex(j, this.data[k].getDataAtIndex(i));
-                    this.data[k].getDataAtIndex(i, temp);
+            function swap(data: DataSample[], i: number, j: number) {
+                for (let k = 0; k < data.length; k++) {
+                    let temp: number = data[k].getDataAtIndex(j);
+                    data[k].setDataAtIndex(j, data[k].getDataAtIndex(i));
+                    data[k].setDataAtIndex(i, temp);
                 }
             }
         }

@@ -1,3 +1,6 @@
+let dataSet = new stats.DataSet([2, 1], [1, 2]);
+dataSet.sort();
+
 let arr: number[] = [];
 let data: number[] = [];
 

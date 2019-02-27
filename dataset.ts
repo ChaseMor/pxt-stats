@@ -70,21 +70,21 @@ namespace stats {
                 for (let j = i + 1; j < this.length(); j++) {
                     if (sortByY) {
                         if (this.y.getDataAtIndex(i) > this.y.getDataAtIndex(j)) {
-                            swap(i, j);
+                            swap(this.x, this.y, i, j);
                         }
                     } else {
                         if (this.x.getDataAtIndex(i) > this.x.getDataAtIndex(j)) {
-                            swap(i, j);
+                            swap(this.x, this.y, i, j);
                         }
                     }
                 }
             }
-            function swap(i: number, j: number) {
-                let temp: number[] = [this.x.getDataAtIndex(j), this.x.getDataAtIndex(j)];
-                this.x.setDataAtIndex(j, this.x.getDataAtIndex(i));
-                this.y.setDataAtIndex(j, this.y.getDataAtIndex(i));
-                this.x.setDataAtIndex(i, temp[0]);
-                this.y.setDataAtIndex(i, temp[1]);
+            function swap(x: DataSample, y: DataSample, i: number, j: number) {
+                let temp: number[] = [x.getDataAtIndex(j), y.getDataAtIndex(j)];
+                x.setDataAtIndex(j, x.getDataAtIndex(i));
+                y.setDataAtIndex(j, y.getDataAtIndex(i));
+                x.setDataAtIndex(i, temp[0]);
+                y.setDataAtIndex(i, temp[1]);
             }
         }
 
