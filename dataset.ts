@@ -158,6 +158,7 @@ namespace stats {
                 return;
             }
             this.x.setDataAtIndex(index, x);
+            this.clearProperties();
         }
 
         /**
@@ -171,6 +172,7 @@ namespace stats {
                 return;
             }
             this.y.setDataAtIndex(index, y);
+            this.clearProperties();
         }
 
         /**
@@ -184,8 +186,18 @@ namespace stats {
             if (index < 0 || index >= this.length) {
                 return;
             }
-            this.x.setDataAtIndex(index, x)
-            this.y.setDataAtIndex(index, y)
+            this.x.setDataAtIndex(index, x);
+            this.y.setDataAtIndex(index, y);
+        }
+
+        /**
+         * Clears all pre-computed values
+         */
+        private clearProperties() {
+            this.covariance = undefined;
+            this.covariancePop = undefined;
+            this.correlation = undefined;
+            this.correlationPop = undefined;
         }
 
         /**
@@ -402,9 +414,12 @@ namespace stats {
          * @returns the sample correlation of the data
          */
         getCorrelation(): number {
-            return this.getCovariance() 
-                / (this.x.getStandardDeviation() 
-                * this.y.getStandardDeviation());
+            if (!this.correlation) {
+                this.correlation = this.getCovariance() 
+                    / (this.x.getStandardDeviation() 
+                    * this.y.getStandardDeviation());
+            }
+            return this.correlation;
         }
 
         /**
@@ -413,9 +428,12 @@ namespace stats {
          * @returns the population correlation of the data
          */
         getCorrelationPopulation(): number {
-            return this.getCovariancePopulation() 
-                / (this.x.getStandardDeviationPopulation() 
-                * this.y.getStandardDeviationPopulation());
+            if (!this.correlationPop) {
+                this.correlationPop = this.getCovariancePopulation() 
+                    / (this.x.getStandardDeviationPopulation() 
+                    * this.y.getStandardDeviationPopulation());
+            }
+            return this.correlationPop;
         }
         
     }
