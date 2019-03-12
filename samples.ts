@@ -16,6 +16,11 @@ namespace stats {
         private _mean: number;
 
         /**
+         * The median value of the data
+         */
+        private _median: number;
+
+        /**
          * The total sum of the data
          */
         private _sum: number;
@@ -93,6 +98,7 @@ namespace stats {
          */
         private clearProperties() {
             this._mean = undefined;
+            this._median = undefined;
             this._sum = undefined;
             this._std = undefined;
             this._var = undefined;
@@ -192,6 +198,30 @@ namespace stats {
                 this._mean = this.getSum() / this.length;
             }
             return this._mean;
+        }
+
+        /**
+         * Gets the median value of the data
+         * 
+         * @returns the median value of the data
+         */
+        getMedian(): number {
+            if (!this._median) {
+                if (this._isSorted) {
+                    if (this.length % 2 == 0) {
+                        let left = this._data[(this.length / 2) - 1];
+                        let right = this._data[(this.length / 2)];
+                        this._median = (left + right) / 2;
+                    } else {
+                        this._median = this._data[(this.length - 1) / 2];
+                    }
+                } else {
+                    let temp: DataSample = new DataSample(this.getData());
+                    temp.sort();
+                    this._median = temp.getMedian();
+                }
+            }
+            return this._median;
         }
 
         /**
