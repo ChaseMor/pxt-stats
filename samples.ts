@@ -8,56 +8,61 @@ namespace stats {
         /**
          * The data used
          */
-        private data: number[];
+        private _data: number[];
 
         /**
          * The average value of the data
          */
-        private mean: number;
+        private _mean: number;
 
         /**
          * The total sum of the data
          */
-        private sum: number;
+        private _sum: number;
 
         /**
          * The standard deviation of the data (sample)
          */
-        private std: number;
+        private _std: number;
 
         /**
          * The variance of the data (sample)
          */
-        private var: number;
+        private _var: number;
 
         /**
          * The population standard deviation of the data
          */
-        private stdPop: number;
+        private _stdPop: number;
 
         /**
          * The population variance of the data
          */
-        private varPop: number;
+        private _varPop: number;
 
         /**
          * The smallest value in the data
          */
-        private min: number;
+        private _min: number;
 
         /**
          * The largest value in the data
          */
-        private max: number;
+        private _max: number;
+
+        /**
+         * Whether or not the sample is sorted
+         */
+        private _isSorted: boolean;
 
         /**
          * @param data the data that is being sampled
          */
         constructor(data?: number[]) {
             if (!data) {
-                this.data = [];
+                this._data = [];
             } else {
-                this.data = data;
+                this._data = data;
             }
         }
 
@@ -67,7 +72,7 @@ namespace stats {
          * @param newData the new data point to be added
          */
         addData(newData: number) {
-            this.data.push(newData);
+            this._data.push(newData);
             this.clearProperties();
         }
 
@@ -78,7 +83,7 @@ namespace stats {
          */
         concatData(newData: number[]) {
             for (let value of newData) {
-                this.data.push(value);
+                this._data.push(value);
             }
             this.clearProperties();
         }
@@ -87,14 +92,15 @@ namespace stats {
          * Clears all pre-computed values
          */
         private clearProperties() {
-            this.mean = undefined;
-            this.sum = undefined;
-            this.std = undefined;
-            this.var = undefined;
-            this.stdPop = undefined;
-            this.varPop = undefined;
-            this.min = undefined;
-            this.max = undefined;
+            this._mean = undefined;
+            this._sum = undefined;
+            this._std = undefined;
+            this._var = undefined;
+            this._stdPop = undefined;
+            this._varPop = undefined;
+            this._min = undefined;
+            this._max = undefined;
+            this._isSorted = undefined;
         }
 
         /**
@@ -105,12 +111,35 @@ namespace stats {
             for (let i = 0; i < this.length - 1; ++i) {
                 for (let j = i + 1; j < this.length; ++j) {
                     if (arr[i] > arr[j]) {
-                        let temp: number = this.data[i];
-                        this.data[i] = this.data[j];
-                        this.data[j] = temp;
+                        let temp: number = this._data[i];
+                        this._data[i] = this._data[j];
+                        this._data[j] = temp;
                     }
                 }
             }
+        }
+
+        /**
+         * Determines whether or not the the data sample is sorted
+         * @returns Whether or not the data sample is sorted
+         */
+        isSorted() {
+            if (this._isSorted == undefined) {
+                if (this.length == 0) {
+                    this._isSorted;
+                } else {
+                    let prev: number = this._data[0];
+                    for (let i = 1; i < this._data.length; i++) {
+                        if (this._data[i] < prev) {
+                            this._isSorted = false;
+                            break;
+                        }
+                        prev = this._data[i];
+                    }
+                    this._isSorted = true;
+                }
+            }
+            return this._isSorted;
         }
         
         /**
@@ -119,7 +148,7 @@ namespace stats {
          */
         getData() {
             let out: number[] = [];
-            for (let n of this.data) {
+            for (let n of this._data) {
                 out.push(n);
             }
             return out;
@@ -135,7 +164,7 @@ namespace stats {
             if (index >= this.length || index < 0) {
                 return undefined;
             } else {
-                return this.data[index];
+                return this._data[index];
             }
         }
 
@@ -149,7 +178,7 @@ namespace stats {
             if (index >= this.length || index < 0) {
                 return;
             }
-            this.data[index] = data;
+            this._data[index] = data;
             this.clearProperties();
         }
 
@@ -159,10 +188,10 @@ namespace stats {
          * @returns the average value of the data
          */
         getMean(): number {
-            if (!this.mean) {
-                this.mean = this.getSum() / this.length;
+            if (!this._mean) {
+                this._mean = this.getSum() / this.length;
             }
-            return this.mean;
+            return this._mean;
         }
 
         /**
@@ -171,13 +200,13 @@ namespace stats {
          * @returns the total sum of the data
          */
         getSum(): number {
-            if (!this.sum) {
-                this.sum = 0;
-                for (let value of this.data) {
-                    this.sum += value;
+            if (!this._sum) {
+                this._sum = 0;
+                for (let value of this._data) {
+                    this._sum += value;
                 }
             }
-            return this.sum;
+            return this._sum;
         }
 
         /**
@@ -186,7 +215,7 @@ namespace stats {
          * @returns the number of data points in the data set
          */
         get length(): number {
-            return this.data.length;
+            return this._data.length;
         }
 
         /**
@@ -195,14 +224,14 @@ namespace stats {
          * @returns the sample variance of the data 
          */
         getVariance(): number {
-            if (!this.var) {
-                this.var = 0;
-                for (let value of this.data) {
-                    this.var += (value - this.getMean()) ** 2;
+            if (!this._var) {
+                this._var = 0;
+                for (let value of this._data) {
+                    this._var += (value - this.getMean()) ** 2;
                 }
-                this.var /= (this.length - 1);
+                this._var /= (this.length - 1);
             }
-            return this.var;
+            return this._var;
         }
 
         /**
@@ -211,10 +240,10 @@ namespace stats {
          * @returns the sample standard deviation of the data
          */
         getStandardDeviation(): number {
-            if (!this.std) {
-                this.std = Math.sqrt(this.getVariance());
+            if (!this._std) {
+                this._std = Math.sqrt(this.getVariance());
             }
-            return this.std;
+            return this._std;
         }
 
         /**
@@ -223,14 +252,14 @@ namespace stats {
          * @returns the population variance of the data
          */
         getVariancePopulation(): number {
-            if (!this.varPop) {
-                this.varPop = 0;
-                for (let value of this.data) {
-                    this.varPop += (value - this.getMean()) ** 2;
+            if (!this._varPop) {
+                this._varPop = 0;
+                for (let value of this._data) {
+                    this._varPop += (value - this.getMean()) ** 2;
                 }
-                this.varPop /= this.length;
+                this._varPop /= this.length;
             }
-            return this.varPop;
+            return this._varPop;
         }
 
         /**
@@ -239,10 +268,10 @@ namespace stats {
          * @returns the population standard deviation of the data
          */
         getStandardDeviationPopulation(): number {
-            if (!this.stdPop) {
-                this.stdPop = Math.sqrt(this.getVariancePopulation());
+            if (!this._stdPop) {
+                this._stdPop = Math.sqrt(this.getVariancePopulation());
             }
-            return this.stdPop;
+            return this._stdPop;
         }
 
         /**
@@ -251,10 +280,10 @@ namespace stats {
          * @returns the smallest value in the data
          */
         getMin(): number {
-            if (!this.min) {
+            if (!this._min) {
                 this.calculateMinMax();
             }
-            return this.min;
+            return this._min;
         }
 
         /**
@@ -263,32 +292,32 @@ namespace stats {
          * @returns the largest value in the data
          */
         getMax(): number {
-            if (!this.max) {
+            if (!this._max) {
                 this.calculateMinMax();
             }
-            return this.max;
+            return this._max;
         }
 
         /**
          * Calculates the min and max values of the data
          */
         private calculateMinMax() {
-            if (this.data.length == 0) {
+            if (this._data.length == 0) {
                 return;
             }
-            let min: number = this.data[0];
-            let max: number = this.data[0];
+            let min: number = this._data[0];
+            let max: number = this._data[0];
 
-            for (let i = 1; i < this.data.length; i++) {
-                if (this.data[i] < min) {
-                    min = this.data[i];
+            for (let i = 1; i < this._data.length; i++) {
+                if (this._data[i] < min) {
+                    min = this._data[i];
                 }
-                if (this.data[i] > max) {
-                    max = this.data[i];
+                if (this._data[i] > max) {
+                    max = this._data[i];
                 }
             }
-            this.min = min;
-            this.max = max;
+            this._min = min;
+            this._max = max;
         }
     }
 }
