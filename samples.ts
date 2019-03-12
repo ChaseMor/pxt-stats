@@ -21,14 +21,24 @@ namespace stats {
         private sum: number;
 
         /**
-         * The standard deviation of the data
+         * The standard deviation of the data (sample)
          */
         private std: number;
 
         /**
-         * The variance of the data
+         * The variance of the data (sample)
          */
         private var: number;
+
+        /**
+         * The population standard deviation of the data
+         */
+        private stdPop: number;
+
+        /**
+         * The population variance of the data
+         */
+        private varPop: number;
 
         /**
          * The smallest value in the data
@@ -81,6 +91,8 @@ namespace stats {
             this.sum = undefined;
             this.std = undefined;
             this.var = undefined;
+            this.stdPop = undefined;
+            this.varPop = undefined;
             this.min = undefined;
             this.max = undefined;
         }
@@ -157,9 +169,9 @@ namespace stats {
         }
 
         /**
-         * Gets the variance of the data
+         * Gets the sample variance of the data 
          * 
-         * @returns the variance of the data
+         * @returns the sample variance of the data 
          */
         getVariance(): number {
             if (!this.var) {
@@ -167,21 +179,49 @@ namespace stats {
                 for (let value of this.data) {
                     this.var += (value - this.getMean()) ** 2;
                 }
-                this.var /= this.getCount();
+                this.var /= (this.getCount() - 1);
             }
             return this.var;
         }
 
         /**
-         * Gets the standard deviation of the data
+         * Gets the sample standard deviation of the data
          * 
-         * @returns the standard deviation of the data
+         * @returns the sample standard deviation of the data
          */
         getStandardDeviation(): number {
             if (!this.std) {
                 this.std = Math.sqrt(this.getVariance());
             }
             return this.std;
+        }
+
+        /**
+         * Gets the population variance of the data
+         * 
+         * @returns the population variance of the data
+         */
+        getPopulationVariance(): number {
+            if (!this.varPop) {
+                this.varPop = 0;
+                for (let value of this.data) {
+                    this.varPop += (value - this.getMean()) ** 2;
+                }
+                this.varPop /= this.getCount();
+            }
+            return this.varPop;
+        }
+
+        /**
+         * Gets the population standard deviation of the data
+         * 
+         * @returns the population standard deviation of the data
+         */
+        getPopulationStandardDeviation(): number {
+            if (!this.stdPop) {
+                this.stdPop = Math.sqrt(this.getPopulationVariance());
+            }
+            return this.stdPop;
         }
 
         /**

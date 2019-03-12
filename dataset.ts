@@ -250,39 +250,75 @@ namespace stats {
         }
 
         /**
-         * Gets the variance of the x axis of the data
+         * Gets the sample variance of the x axis of the data
          * 
-         * @returns the variance of the x axis of the data
+         * @returns the sample variance of the x axis of the data
          */
         getVarianceX(): number {
             return this.x.getVariance();
         }
 
         /**
-         * Gets the variance of the y axis of the data
+         * Gets the sample variance of the y axis of the data
          * 
-         * @returns the variance of the y axis of the data
+         * @returns the sample variance of the y axis of the data
          */
         getVarianceY(): number {
             return this.y.getVariance();
         }
 
         /**
-         * Gets the standard deviation of the x axis of the data
+         * Gets the sample standard deviation of the x axis of the data
          * 
-         * @returns the standard deviation of the x axis of the data
+         * @returns the sample standard deviation of the x axis of the data
          */
         getStandardDeviationX(): number {
             return this.x.getStandardDeviation();
         }
 
         /**
-         * Gets the standard deviation of the y axis of the data
+         * Gets the sample standard deviation of the y axis of the data
          * 
-         * @returns the standard deviation of the y axis of the data
+         * @returns the sample standard deviation of the y axis of the data
          */
         getStandardDeviationY(): number {
             return this.y.getStandardDeviation();
+        }
+
+        /**
+         * Gets the population variance of the x axis of the data
+         * 
+         * @returns the population variance of the x axis of the data
+         */
+        getPopulationVarianceX(): number {
+            return this.x.getPopulationVariance();
+        }
+
+        /**
+         * Gets the population variance of the y axis of the data
+         * 
+         * @returns the population variance of the y axis of the data
+         */
+        getPopulationVarianceY(): number {
+            return this.y.getPopulationVariance();
+        }
+
+        /**
+         * Gets the population standard deviation of the x axis of the data
+         * 
+         * @returns the population standard deviation of the x axis of the data
+         */
+        getPopulationStandardDeviationX(): number {
+            return this.x.getPopulationStandardDeviation();
+        }
+
+        /**
+         * Gets the population standard deviation of the y axis of the data
+         * 
+         * @returns the population standard deviation of the y axis of the data
+         */
+        getPopulationStandardDeviationY(): number {
+            return this.y.getPopulationStandardDeviation();
         }
 
         /**

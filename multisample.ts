@@ -154,9 +154,9 @@ namespace stats {
         }
 
         /**
-         * Gets the variance of all dimensions of the data
+         * Gets the sample variance of all dimensions of the data
          * 
-         * @returns the variance of all dimensions of the data
+         * @returns the sample variance of all dimensions of the data
          */
         getVariance(): number[] {
             let out: number[] = [];
@@ -167,11 +167,37 @@ namespace stats {
         }
 
         /**
-         * Gets the standard deviation of all dimensions of the data
+         * Gets the sample standard deviation of all dimensions of the data
          * 
-         * @returns the standard deviation of all dimensions of the data
+         * @returns the sample standard deviation of all dimensions of the data
          */
         getStandardDeviation(): number[] {
+            let out: number[] = [];
+            for (let i = 0; i < this.getNumOfDim(); i++) {
+                out.push(this.data[i].getStandardDeviation());
+            }
+            return out;
+        }
+
+        /**
+         * Gets the population variance of all dimensions of the data
+         * 
+         * @returns the population variance of all dimensions of the data
+         */
+        getPopulationVariance(): number[] {
+            let out: number[] = [];
+            for (let i = 0; i < this.getNumOfDim(); i++) {
+                out.push(this.data[i].getVariance());
+            }
+            return out;
+        }
+
+        /**
+         * Gets the population standard deviation of all dimensions of the data
+         * 
+         * @returns the population standard deviation of all dimensions of the data
+         */
+        getPopulationStandardDeviation(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
                 out.push(this.data[i].getStandardDeviation());
@@ -278,10 +304,10 @@ namespace stats {
         }
 
         /**
-         * Gets the variance of the data at the specific index
+         * Gets the sample variance of the data at the specific index
          * 
-         * @param dimension
-         * @returns the variance of the data at the specific index
+         * @param dimension the specified dimension
+         * @returns the sample variance of the data at the specific index
          *  undefined if the given index does not map to a dimension in the sample
          */
         getVarianceByDim(dimension: number): number {
@@ -293,16 +319,47 @@ namespace stats {
         }
 
         /**
-         * Gets the standard deviation of the data at the specific index
+         * Gets the sample standard deviation of the data at the specific index
          * 
-         * @returns the standard deviation of the data at the specific index.
+         * @param dimension the specified dimension
+         * @returns the sample standard deviation of the data at the specific index.
          *  undefined if the given index does not map to a dimension in the sample
          */
-        getStandardDeviationByIndex(index: number): number {
-            if (index >= this.getNumOfDim() || index < 0) {
+        getStandardDeviationByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
                 return undefined;
             } else {
-                return this.data[index].getStandardDeviation();
+                return this.data[dimension].getStandardDeviation();
+            }
+        }
+
+        /**
+         * Gets the population variance of the data at the specific index
+         * 
+         * @param dimension the specified dimension
+         * @returns the population variance of the data at the specific index
+         *  undefined if the given index does not map to a dimension in the sample
+         */
+        getPopulationVarianceByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
+                return undefined;
+            } else {
+                return this.data[dimension].getPopulationVariance();
+            }
+        }
+
+        /**
+         * Gets the population standard deviation of the data at the specific index
+         * 
+         * @param dimension the specified dimension
+         * @returns the population standard deviation of the data at the specific index.
+         *  undefined if the given index does not map to a dimension in the sample
+         */
+        getPopulationStandardDeviationByDim(dimension: number): number {
+            if (dimension >= this.getNumOfDim() || dimension < 0) {
+                return undefined;
+            } else {
+                return this.data[dimension].getPopulationStandardDeviation();
             }
         }
     }
