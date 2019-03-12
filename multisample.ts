@@ -56,6 +56,21 @@ namespace stats {
                 }
             }
         }
+        
+        /**
+         * Gets the data sample at the specific index
+         * 
+         * @param index the specified index
+         * @returns the data sample at the given index
+         *  undefined if the given index does not map to a index in the data
+         */
+        getSampleByIndex(index: number) {
+            if (index >= this.getNumOfDim() || index < 0) {
+                return undefined;
+            } else {
+                return this.data[index];
+            }
+        }
 
         /**
          * Gets the data point at the given index
@@ -64,7 +79,7 @@ namespace stats {
          * @returns the data point at the specified index
          */
         getDataAtIndex(index: number): number[] {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return [];
             }
             let out: number[] = [];
@@ -81,7 +96,7 @@ namespace stats {
          * @param data the new data point should be changed to
          */
         setDataAtIndex(index: number, data: number[]) {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return;
             }
             if (data.length != this.getNumOfDim()) {
@@ -231,135 +246,15 @@ namespace stats {
         }
 
         /**
-         * Gets the average value of the data at the specific dimension
-         * 
-         * @param dimension the specified dimension
-         * @returns the average value of the data at the specific dimension
-         *  undefined if the given dimension does not map to a dimension in the sample
-         */
-        getMeanByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getMean();
-            }
-        }
-
-        /**
-         * Gets the min value of the data at the specific dimension
-         * 
-         * @param dimension the specified dimension
-         * @returns the min value of the data at the specific dimension
-         *  undefined if the given dimension does not map to a dimension in the sample
-         */
-        getMinByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getMin();
-            }
-        }
-
-        /**
-         * Gets the max value of the data at the specific dimension
-         * 
-         * @param dimension the specified dimension
-         * @returns the max value of the data at the specific dimension
-         *  undefined if the given dimension does not map to a dimension in the sample
-         */
-        getMaxByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getMax();
-            }
-        }
-
-        /**
-         * Gets the total sum of the data at the specific dimension
-         *
-         * @param dimension the specified dimension
-         * @returns the total sum of the data at the specific dimension
-         *  undefined if the given dimension does not map to a dimension in the sample
-         */
-        getSumByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getSum();
-            }
-        }
-
-        /**
          * Gets the number of data points in the data set
          * 
          * @returns the number of data points in the data set
          */
-        length(): number {
+        get length(): number {
             if (this.getNumOfDim() > 0) {
                 return this.data[0].getCount();
             } else {
                 return 0;
-            }
-        }
-
-        /**
-         * Gets the sample variance of the data at the specific index
-         * 
-         * @param dimension the specified dimension
-         * @returns the sample variance of the data at the specific index
-         *  undefined if the given index does not map to a dimension in the sample
-         */
-        getVarianceByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getVariance();
-            }
-        }
-
-        /**
-         * Gets the sample standard deviation of the data at the specific index
-         * 
-         * @param dimension the specified dimension
-         * @returns the sample standard deviation of the data at the specific index.
-         *  undefined if the given index does not map to a dimension in the sample
-         */
-        getStandardDeviationByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getStandardDeviation();
-            }
-        }
-
-        /**
-         * Gets the population variance of the data at the specific index
-         * 
-         * @param dimension the specified dimension
-         * @returns the population variance of the data at the specific index
-         *  undefined if the given index does not map to a dimension in the sample
-         */
-        getPopulationVarianceByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getPopulationVariance();
-            }
-        }
-
-        /**
-         * Gets the population standard deviation of the data at the specific index
-         * 
-         * @param dimension the specified dimension
-         * @returns the population standard deviation of the data at the specific index.
-         *  undefined if the given index does not map to a dimension in the sample
-         */
-        getPopulationStandardDeviationByDim(dimension: number): number {
-            if (dimension >= this.getNumOfDim() || dimension < 0) {
-                return undefined;
-            } else {
-                return this.data[dimension].getPopulationStandardDeviation();
             }
         }
     }
