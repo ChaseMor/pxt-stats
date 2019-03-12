@@ -16,6 +16,26 @@ namespace stats {
         private y: DataSample;
 
         /**
+         * The sample covariance of the data set
+         */
+        private covariance: number;
+
+        /**
+         * The sample correlation of the data set
+         */
+        private correlation: number;
+
+        /**
+         * The population covariance of the data set
+         */
+        private covariancePop: number;
+
+        /**
+         * The population correlation of the data set
+         */
+        private correlationPop: number;
+
+        /**
          * @param xValues the x values of the data
          * @param yValues the y values of the data
          */
@@ -66,8 +86,8 @@ namespace stats {
          */
         sort(sortByY?: boolean) {
             // simple selection sort.
-            for (let i = 0; i < this.length() - 1; i++) {
-                for (let j = i + 1; j < this.length(); j++) {
+            for (let i = 0; i < this.length - 1; i++) {
+                for (let j = i + 1; j < this.length; j++) {
                     if (sortByY) {
                         if (this.y.getDataAtIndex(i) > this.y.getDataAtIndex(j)) {
                             swap(this.x, this.y, i, j);
@@ -95,7 +115,7 @@ namespace stats {
          * @returns the x value of the data point at the specified index
          */
         getXAtIndex(index: number): number {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return undefined;
             }
             return this.x.getDataAtIndex(index);
@@ -108,7 +128,7 @@ namespace stats {
          * @returns the x value of the data point at the specified index
          */
         getYAtIndex(index: number): number {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return undefined;
             }
             return this.y.getDataAtIndex(index);
@@ -121,7 +141,7 @@ namespace stats {
          * @returns the data point at the specified index
          */
         getDataAtIndex(index: number): number[] {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return [];
             }
             return [this.x.getDataAtIndex(index), this.y.getDataAtIndex(index)]
@@ -134,7 +154,7 @@ namespace stats {
          * @param x the new value that is being set
          */
         setXAtIndex(index: number, x: number) {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return;
             }
             this.x.setDataAtIndex(index, x);
@@ -147,7 +167,7 @@ namespace stats {
          * @param y the new value that is being set
          */
         setYAtIndex(index: number, y: number) {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return;
             }
             this.y.setDataAtIndex(index, y);
@@ -161,7 +181,7 @@ namespace stats {
          * @param y the y value the data point should be changed to
          */
         setDataAtIndex(index: number, x: number, y: number) {
-            if (index < 0 || index >= this.length()) {
+            if (index < 0 || index >= this.length) {
                 return;
             }
             this.x.setDataAtIndex(index, x)
@@ -245,7 +265,7 @@ namespace stats {
          * 
          * @returns the amount of data points in the data set
          */
-        length(): number {
+        get length(): number {
             return this.x.getCount();
         }
 
@@ -290,8 +310,8 @@ namespace stats {
          * 
          * @returns the population variance of the x axis of the data
          */
-        getPopulationVarianceX(): number {
-            return this.x.getPopulationVariance();
+        getVarianceXPopulation(): number {
+            return this.x.getVariancePopulation();
         }
 
         /**
@@ -299,8 +319,8 @@ namespace stats {
          * 
          * @returns the population variance of the y axis of the data
          */
-        getPopulationVarianceY(): number {
-            return this.y.getPopulationVariance();
+        getVarianceYPopulation(): number {
+            return this.y.getVariancePopulation();
         }
 
         /**
@@ -308,8 +328,8 @@ namespace stats {
          * 
          * @returns the population standard deviation of the x axis of the data
          */
-        getPopulationStandardDeviationX(): number {
-            return this.x.getPopulationStandardDeviation();
+        getStandardDeviationXPopulation(): number {
+            return this.x.getStandardDeviationPopulation();
         }
 
         /**
@@ -317,8 +337,8 @@ namespace stats {
          * 
          * @returns the population standard deviation of the y axis of the data
          */
-        getPopulationStandardDeviationY(): number {
-            return this.y.getPopulationStandardDeviation();
+        getStandardDeviationYPopulation(): number {
+            return this.y.getStandardDeviationPopulation();
         }
 
         /**
@@ -329,12 +349,12 @@ namespace stats {
          */
         getLineOfBestFit(): number[] {
             let slope: number = 0;
-            for (let i = 0; i < this.length(); i++) {
+            for (let i = 0; i < this.length; i++) {
                 slope += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
             }
             let squareX: number = 0;
 
-            for (let i = 0; i < this.length(); i++) {
+            for (let i = 0; i < this.length; i++) {
                 squareX += (this.getXAtIndex(i) - this.getMeanX()) ** 2;
             }
             slope /= squareX;
@@ -343,5 +363,60 @@ namespace stats {
 
             return [slope, intercept];
         }
+        
+        /**
+         * Gets the sample covariance of the data
+         * 
+         * @returns the sample covariance of the data
+         */
+        getCovariance(): number {
+            if (!this.covariance) {
+                let sum: number = 0;
+                for (let i = 0; i < this.length; i++) {
+                    sum += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
+                }
+                this.covariance = sum / (this.length - 1);
+            }
+            return this.covariance;
+        }
+        
+        /**
+         * Gets the population covariance of the data
+         * 
+         * @returns the population covariance of the data
+         */
+        getCovariancePopulation(): number {
+            if (!this.covariance) {
+                let sum: number = 0;
+                for (let i = 0; i < this.length; i++) {
+                    sum += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
+                }
+                this.covariance = sum / this.length;
+            }
+            return this.covariancePop;
+        }
+
+        /**
+         * Gets the sample correlation of the data
+         * 
+         * @returns the sample correlation of the data
+         */
+        getCorrelation(): number {
+            return this.getCovariance() 
+                / (this.x.getStandardDeviation() 
+                * this.y.getStandardDeviation());
+        }
+
+        /**
+         * Gets the population correlation of the data
+         * 
+         * @returns the population correlation of the data
+         */
+        getCorrelationPopulation(): number {
+            return this.getCovariancePopulation() 
+                / (this.x.getStandardDeviationPopulation() 
+                * this.y.getStandardDeviationPopulation());
+        }
+        
     }
 } 

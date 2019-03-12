@@ -199,10 +199,10 @@ namespace stats {
          * 
          * @returns the population variance of all dimensions of the data
          */
-        getPopulationVariance(): number[] {
+        getVariancePopulation(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getVariance());
+                out.push(this.data[i].getVariancePopulation());
             }
             return out;
         }
@@ -212,10 +212,10 @@ namespace stats {
          * 
          * @returns the population standard deviation of all dimensions of the data
          */
-        getPopulationStandardDeviation(): number[] {
+        getStandardDeviationPopulation(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getStandardDeviation());
+                out.push(this.data[i].getStandardDeviationPopulation());
             }
             return out;
         }

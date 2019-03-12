@@ -201,7 +201,7 @@ namespace stats {
          * 
          * @returns the population variance of the data
          */
-        getPopulationVariance(): number {
+        getVariancePopulation(): number {
             if (!this.varPop) {
                 this.varPop = 0;
                 for (let value of this.data) {
@@ -217,9 +217,9 @@ namespace stats {
          * 
          * @returns the population standard deviation of the data
          */
-        getPopulationStandardDeviation(): number {
+        getStandardDeviationPopulation(): number {
             if (!this.stdPop) {
-                this.stdPop = Math.sqrt(this.getPopulationVariance());
+                this.stdPop = Math.sqrt(this.getVariancePopulation());
             }
             return this.stdPop;
         }
