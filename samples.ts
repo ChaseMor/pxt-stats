@@ -101,7 +101,28 @@ namespace stats {
          * Sorts the data set
          */
         sort() {
-            this.data.sort();
+            // simple selection sort.
+            for (let i = 0; i < this.length - 1; ++i) {
+                for (let j = i + 1; j < this.length; ++j) {
+                    if (arr[i] > arr[j]) {
+                        let temp: number = this.data[i];
+                        this.data[i] = this.data[j];
+                        this.data[j] = temp;
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Gets a copy of data of the sample
+         * @returns a copy of the data
+         */
+        getData() {
+            let out: number[] = [];
+            for (let n of this.data) {
+                out.push(n);
+            }
+            return out;
         }
 
         /**
@@ -111,7 +132,7 @@ namespace stats {
          * @returns the data value at the specific index
          */
         getDataAtIndex(index: number) : number{
-            if (index >= this.getCount() || index < 0) {
+            if (index >= this.length || index < 0) {
                 return undefined;
             } else {
                 return this.data[index];
@@ -125,7 +146,7 @@ namespace stats {
          * @param data the data to be set at the specifc index
          */
         setDataAtIndex(index: number, data: number) {
-            if (index >= this.getCount() || index < 0) {
+            if (index >= this.length || index < 0) {
                 return;
             }
             this.data[index] = data;
@@ -139,7 +160,7 @@ namespace stats {
          */
         getMean(): number {
             if (!this.mean) {
-                this.mean = this.getSum() / this.getCount();
+                this.mean = this.getSum() / this.length;
             }
             return this.mean;
         }
@@ -164,7 +185,7 @@ namespace stats {
          * 
          * @returns the number of data points in the data set
          */
-        getCount(): number {
+        get length(): number {
             return this.data.length;
         }
 
@@ -179,7 +200,7 @@ namespace stats {
                 for (let value of this.data) {
                     this.var += (value - this.getMean()) ** 2;
                 }
-                this.var /= (this.getCount() - 1);
+                this.var /= (this.length - 1);
             }
             return this.var;
         }
@@ -207,7 +228,7 @@ namespace stats {
                 for (let value of this.data) {
                     this.varPop += (value - this.getMean()) ** 2;
                 }
-                this.varPop /= this.getCount();
+                this.varPop /= this.length;
             }
             return this.varPop;
         }
