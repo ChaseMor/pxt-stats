@@ -205,7 +205,7 @@ namespace stats {
          * 
          * @returns the average x value of the data
          */
-        getMeanX(): number {
+        get meanX(): number {
             return this._x.mean;
         }
 
@@ -214,7 +214,7 @@ namespace stats {
          * 
          * @returns the average y value of the data
          */
-        getMeanY(): number {
+        get meanY(): number {
             return this._y.mean;
         }
 
@@ -223,7 +223,7 @@ namespace stats {
          * 
          * @returns the min x value of the data
          */
-        getMinX(): number {
+        get minX(): number {
             return this._x.min;
         }
 
@@ -232,7 +232,7 @@ namespace stats {
          * 
          * @returns the min y value of the data
          */
-        getMinY(): number {
+        get minY(): number {
             return this._y.min;
         }
 
@@ -241,7 +241,7 @@ namespace stats {
          * 
          * @returns the max x value of the data
          */
-        getMaxX(): number {
+        get maxX(): number {
             return this._x.max;
         }
 
@@ -250,7 +250,7 @@ namespace stats {
          * 
          * @returns the max y value of the data
          */
-        getMaxY(): number {
+        get maxY(): number {
             return this._y.max;
         }
 
@@ -259,7 +259,7 @@ namespace stats {
          * 
          * @returns the total sum of the x axis of the data
          */
-        getSumX(): number {
+        get sumX(): number {
             return this._x.sum;
         }
 
@@ -268,7 +268,7 @@ namespace stats {
          * 
          * @returns the total sum of the y axis of the data
          */
-        getSumY(): number {
+        get sumY(): number {
             return this._y.sum;
         }
 
@@ -286,7 +286,7 @@ namespace stats {
          * 
          * @returns the sample variance of the x axis of the data
          */
-        getVarianceX(): number {
+        get varianceX(): number {
             return this._x.variance;
         }
 
@@ -295,7 +295,7 @@ namespace stats {
          * 
          * @returns the sample variance of the y axis of the data
          */
-        getVarianceY(): number {
+        get varianceY(): number {
             return this._y.variance;
         }
 
@@ -304,7 +304,7 @@ namespace stats {
          * 
          * @returns the sample standard deviation of the x axis of the data
          */
-        getStandardDeviationX(): number {
+        get standardDeviationX(): number {
             return this._x.standardDeviation;
         }
 
@@ -313,7 +313,7 @@ namespace stats {
          * 
          * @returns the sample standard deviation of the y axis of the data
          */
-        getStandardDeviationY(): number {
+        get standardDeviationY(): number {
             return this._y.standardDeviation;
         }
 
@@ -322,7 +322,7 @@ namespace stats {
          * 
          * @returns the population variance of the x axis of the data
          */
-        getVarianceXPopulation(): number {
+        get varianceXPopulation(): number {
             return this._x.variancePopulation;
         }
 
@@ -331,7 +331,7 @@ namespace stats {
          * 
          * @returns the population variance of the y axis of the data
          */
-        getVarianceYPopulation(): number {
+        get varianceYPopulation(): number {
             return this._y.variancePopulation;
         }
 
@@ -340,7 +340,7 @@ namespace stats {
          * 
          * @returns the population standard deviation of the x axis of the data
          */
-        getStandardDeviationXPopulation(): number {
+        get standardDeviationXPopulation(): number {
             return this._x.standardDeviationPopulation;
         }
 
@@ -349,7 +349,7 @@ namespace stats {
          * 
          * @returns the population standard deviation of the y axis of the data
          */
-        getStandardDeviationYPopulation(): number {
+        get standardDeviationYPopulation(): number {
             return this._y.standardDeviationPopulation;
         }
 
@@ -359,19 +359,19 @@ namespace stats {
          * @returns the coefficients of the line of best fit in an array 
          *      with the form [slope, intercept]
          */
-        getLineOfBestFit(): number[] {
+        get lineOfBestFit(): number[] {
             let slope: number = 0;
             for (let i = 0; i < this.length; i++) {
-                slope += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
+                slope += (this.getXAtIndex(i) - this.meanX) * (this.getYAtIndex(i) - this.meanY);
             }
             let squareX: number = 0;
 
             for (let i = 0; i < this.length; i++) {
-                squareX += (this.getXAtIndex(i) - this.getMeanX()) ** 2;
+                squareX += (this.getXAtIndex(i) - this.meanX) ** 2;
             }
             slope /= squareX;
 
-            let intercept: number = this.getMeanY() - slope * this.getMeanX();
+            let intercept: number = this.meanY - slope * this.meanX;
 
             return [slope, intercept];
         }
@@ -381,11 +381,11 @@ namespace stats {
          * 
          * @returns the sample covariance of the data
          */
-        getCovariance(): number {
+        get covariance(): number {
             if (!this._covariance) {
                 let sum: number = 0;
                 for (let i = 0; i < this.length; i++) {
-                    sum += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
+                    sum += (this.getXAtIndex(i) - this.meanX) * (this.getYAtIndex(i) - this.meanY);
                 }
                 this._covariance = sum / (this.length - 1);
             }
@@ -397,11 +397,11 @@ namespace stats {
          * 
          * @returns the population covariance of the data
          */
-        getCovariancePopulation(): number {
+        get covariancePopulation(): number {
             if (!this._covariance) {
                 let sum: number = 0;
                 for (let i = 0; i < this.length; i++) {
-                    sum += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
+                    sum += (this.getXAtIndex(i) - this.meanX) * (this.getYAtIndex(i) - this.meanY);
                 }
                 this._covariance = sum / this.length;
             }
@@ -413,9 +413,9 @@ namespace stats {
          * 
          * @returns the sample correlation of the data
          */
-        getCorrelation(): number {
+        get correlation(): number {
             if (!this._correlation) {
-                this._correlation = this.getCovariance() 
+                this._correlation = this.covariance
                     / (this._x.standardDeviation 
                     * this._y.standardDeviation);
             }
@@ -427,9 +427,9 @@ namespace stats {
          * 
          * @returns the population correlation of the data
          */
-        getCorrelationPopulation(): number {
+        get correlationPopulation(): number {
             if (!this._correlationPop) {
-                this._correlationPop = this.getCovariancePopulation() 
+                this._correlationPop = this.covariancePopulation
                     / (this._x.standardDeviationPopulation 
                     * this._y.standardDeviationPopulation);
             }
