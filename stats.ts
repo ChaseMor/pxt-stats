@@ -102,6 +102,68 @@ namespace stats {
     }
 
     /**
+     * Gets the sample covariance of the two arrays
+     * 
+     * @param xValues the x values used
+     * @param yValues the y values used
+     * @returns the sample covariance of the two arrays
+     */
+    export function covariance(xValues: number[], yValues: number[]) {
+        let sample = new DataSet(xValues, yValues);
+        return sample.covariance;
+    }
+
+    /**
+     * Gets the population covariance of the two arrays
+     * 
+     * @param xValues the x values used
+     * @param yValues the y values used
+     * @returns the population covariance of the two arrays
+     */
+    export function covariancePopulation(xValues: number[], yValues: number[]) {
+        let sample = new DataSet(xValues, yValues);
+        return sample.covariancePopulation;
+    }
+
+    /**
+     * Gets the sample correlation of the two arrays
+     * 
+     * @param xValues the x values used
+     * @param yValues the y values used
+     * @returns the sample correlation of the two arrays
+     */
+    export function correlation(xValues: number[], yValues: number[]) {
+        let sample = new DataSet(xValues, yValues);
+        return sample.correlation;
+    }
+
+    /**
+     * Gets the population correlation of the two arrays
+     * 
+     * @param xValues the x values used
+     * @param yValues the y values used
+     * @returns the population correlation of the two arrays
+     */
+    export function correlationPopulation(xValues: number[], yValues: number[]) {
+        let sample = new DataSet(xValues, yValues);
+        return sample.correlationPopulation;
+    }
+
+    /**
+     * Gets the line of best fit of the two arrays
+     * returns the 2 element array of the form [slope, intercept]
+     * 
+     * @param xValues the x values used
+     * @param yValues the y values used
+     * @returns the line of best fit of the two arrays
+     */
+    export function lineOfBestFit(xValues: number[], yValues: number[]) {
+        let sample = new DataSet(xValues, yValues);
+        return sample.lineOfBestFit;
+    }
+    
+
+    /**
      * Sorts the given Array
      * 
      * @param data the data that is to be sorted
