@@ -1,14 +1,116 @@
 namespace stats {
 
+
+    
     /**
-     * Gets the average of the two numbers
+     * Gets the mean value of the array
      * 
-     * @param a The first number
-     * @param b The second number
-     * @returns the average of the two numbers
+     * @param data the data that the mean is calculated from
+     * @returns the mean value of the array
      */
-    export function average(a: number, b: number) {
-        return (a + b) / 2;
+    export function mean(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.mean;
+    }
+    
+    /**
+     * Gets the median value of the array
+     * 
+     * @param data the data that the median is calculated from
+     * @returns the median value of the array
+     */
+    export function median(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.median;
+    }
+
+    /**
+     * Gets the sum of the values in the array
+     * 
+     * @param data the data that the sum is calculated from
+     * @returns the sum of the values in the array
+     */
+    export function sum(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.sum;
+    }
+
+    /**
+     * Gets the sample standard deviation of the values in the array
+     * 
+     * @param data the data that the standard deviation is calculated from
+     * @returns the sample standard deviation of the values in the array
+     */
+    export function standardDeviation(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.standardDeviation;
+    }
+
+    /**
+     * Gets the population standard deviation of the values in the array
+     * 
+     * @param data the data that the standard deviation is calculated from
+     * @returns the population standard deviation of the values in the array
+     */
+    export function standardDeviationPopulation(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.standardDeviationPopulation;
+    }
+
+    /**
+     * Gets the sample variance of the values in the array
+     * 
+     * @param data the data that the variance is calculated from
+     * @returns the sample variance of the values in the array
+     */
+    export function variance(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.variance;
+    }
+
+    /**
+     * Gets the population variance of the values in the array
+     * 
+     * @param data the data that the variance is calculated from
+     * @returns the population variance of the values in the array
+     */
+    export function variancePopulation(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.variancePopulation;
+    }
+
+    /**
+     * Gets the smallest value of the array
+     * 
+     * @param data the data that the min is calculated from
+     * @returns the smallest value of the array
+     */
+    export function min(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.min;
+    }
+
+    /**
+     * Gets the largest value of the array
+     * 
+     * @param data the data that the max is calculated from
+     * @returns the largest value of the array
+     */
+    export function max(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.max;
+    }
+
+    /**
+     * Sorts the given Array
+     * 
+     * @param data the data that is to be sorted
+     * @returns the sorted array
+     */
+    export function sort(data: number[]) {
+        let sample = new DataSample(data);
+        sample.sort();
+        return sample.getData();
     }
 
     /**
