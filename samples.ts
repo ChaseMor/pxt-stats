@@ -193,9 +193,9 @@ namespace stats {
          * 
          * @returns the average value of the data
          */
-        getMean(): number {
+        get mean(): number {
             if (!this._mean) {
-                this._mean = this.getSum() / this.length;
+                this._mean = this.sum / this.length;
             }
             return this._mean;
         }
@@ -205,7 +205,7 @@ namespace stats {
          * 
          * @returns the median value of the data
          */
-        getMedian(): number {
+        get median(): number {
             if (!this._median) {
                 if (this._isSorted) {
                     if (this.length % 2 == 0) {
@@ -218,7 +218,7 @@ namespace stats {
                 } else {
                     let temp: DataSample = new DataSample(this.getData());
                     temp.sort();
-                    this._median = temp.getMedian();
+                    this._median = temp.median;
                 }
             }
             return this._median;
@@ -229,7 +229,7 @@ namespace stats {
          * 
          * @returns the total sum of the data
          */
-        getSum(): number {
+        get sum(): number {
             if (!this._sum) {
                 this._sum = 0;
                 for (let value of this._data) {
@@ -253,11 +253,11 @@ namespace stats {
          * 
          * @returns the sample variance of the data 
          */
-        getVariance(): number {
+        get variance(): number {
             if (!this._var) {
                 this._var = 0;
                 for (let value of this._data) {
-                    this._var += (value - this.getMean()) ** 2;
+                    this._var += (value - this.mean) ** 2;
                 }
                 this._var /= (this.length - 1);
             }
@@ -269,9 +269,9 @@ namespace stats {
          * 
          * @returns the sample standard deviation of the data
          */
-        getStandardDeviation(): number {
+        get standardDeviation(): number {
             if (!this._std) {
-                this._std = Math.sqrt(this.getVariance());
+                this._std = Math.sqrt(this.variance);
             }
             return this._std;
         }
@@ -281,11 +281,11 @@ namespace stats {
          * 
          * @returns the population variance of the data
          */
-        getVariancePopulation(): number {
+        get variancePopulation(): number {
             if (!this._varPop) {
                 this._varPop = 0;
                 for (let value of this._data) {
-                    this._varPop += (value - this.getMean()) ** 2;
+                    this._varPop += (value - this.mean) ** 2;
                 }
                 this._varPop /= this.length;
             }
@@ -297,9 +297,9 @@ namespace stats {
          * 
          * @returns the population standard deviation of the data
          */
-        getStandardDeviationPopulation(): number {
+        get standardDeviationPopulation(): number {
             if (!this._stdPop) {
-                this._stdPop = Math.sqrt(this.getVariancePopulation());
+                this._stdPop = Math.sqrt(this.variancePopulation);
             }
             return this._stdPop;
         }
@@ -309,7 +309,7 @@ namespace stats {
          * 
          * @returns the smallest value in the data
          */
-        getMin(): number {
+        get min(): number {
             if (!this._min) {
                 this.calculateMinMax();
             }
@@ -321,7 +321,7 @@ namespace stats {
          * 
          * @returns the largest value in the data
          */
-        getMax(): number {
+        get max(): number {
             if (!this._max) {
                 this.calculateMinMax();
             }

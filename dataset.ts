@@ -8,32 +8,32 @@ namespace stats {
         /**
          * The x values of the data set
          */
-        private x: DataSample;
+        private _x: DataSample;
 
         /**
          * The y values of the data set
          */
-        private y: DataSample;
+        private _y: DataSample;
 
         /**
          * The sample covariance of the data set
          */
-        private covariance: number;
+        private _covariance: number;
 
         /**
          * The sample correlation of the data set
          */
-        private correlation: number;
+        private _correlation: number;
 
         /**
          * The population covariance of the data set
          */
-        private covariancePop: number;
+        private _covariancePop: number;
 
         /**
          * The population correlation of the data set
          */
-        private correlationPop: number;
+        private _correlationPop: number;
 
         /**
          * @param xValues the x values of the data
@@ -47,8 +47,8 @@ namespace stats {
             // In case of dimensions having different lengths, use the shortest
             let minWidth: number = Math.min(xValues.length, yValues.length);
 
-            this.x = new DataSample(xValues.slice(0, minWidth));
-            this.y = new DataSample(yValues.slice(0, minWidth));
+            this._x = new DataSample(xValues.slice(0, minWidth));
+            this._y = new DataSample(yValues.slice(0, minWidth));
         }
 
         /**
@@ -58,8 +58,8 @@ namespace stats {
          * @param yValue the y value of the new data point to be added
          */
         addDataPoint(xValue: number, yValue: number) {
-            this.x.addData(xValue);
-            this.y.addData(yValue);
+            this._x.addData(xValue);
+            this._y.addData(yValue);
         }
 
         /**
@@ -76,8 +76,8 @@ namespace stats {
             // In case of dimensions having different lengths, use the shortest
             let minWidth: number = Math.min(xValues.length, yValues.length);
 
-            this.x.concatData(xValues.slice(0, minWidth));
-            this.y.concatData(yValues.slice(0, minWidth));
+            this._x.concatData(xValues.slice(0, minWidth));
+            this._y.concatData(yValues.slice(0, minWidth));
         }
 
         /**
@@ -89,12 +89,12 @@ namespace stats {
             for (let i = 0; i < this.length - 1; i++) {
                 for (let j = i + 1; j < this.length; j++) {
                     if (sortByY) {
-                        if (this.y.getDataAtIndex(i) > this.y.getDataAtIndex(j)) {
-                            swap(this.x, this.y, i, j);
+                        if (this._y.getDataAtIndex(i) > this._y.getDataAtIndex(j)) {
+                            swap(this._x, this._y, i, j);
                         }
                     } else {
-                        if (this.x.getDataAtIndex(i) > this.x.getDataAtIndex(j)) {
-                            swap(this.x, this.y, i, j);
+                        if (this._x.getDataAtIndex(i) > this._x.getDataAtIndex(j)) {
+                            swap(this._x, this._y, i, j);
                         }
                     }
                 }
@@ -118,7 +118,7 @@ namespace stats {
             if (index < 0 || index >= this.length) {
                 return undefined;
             }
-            return this.x.getDataAtIndex(index);
+            return this._x.getDataAtIndex(index);
         }
 
         /**
@@ -131,7 +131,7 @@ namespace stats {
             if (index < 0 || index >= this.length) {
                 return undefined;
             }
-            return this.y.getDataAtIndex(index);
+            return this._y.getDataAtIndex(index);
         }
 
         /**
@@ -144,7 +144,7 @@ namespace stats {
             if (index < 0 || index >= this.length) {
                 return [];
             }
-            return [this.x.getDataAtIndex(index), this.y.getDataAtIndex(index)]
+            return [this._x.getDataAtIndex(index), this._y.getDataAtIndex(index)]
         }
 
         /**
@@ -157,7 +157,7 @@ namespace stats {
             if (index < 0 || index >= this.length) {
                 return;
             }
-            this.x.setDataAtIndex(index, x);
+            this._x.setDataAtIndex(index, x);
             this.clearProperties();
         }
 
@@ -171,7 +171,7 @@ namespace stats {
             if (index < 0 || index >= this.length) {
                 return;
             }
-            this.y.setDataAtIndex(index, y);
+            this._y.setDataAtIndex(index, y);
             this.clearProperties();
         }
 
@@ -186,18 +186,18 @@ namespace stats {
             if (index < 0 || index >= this.length) {
                 return;
             }
-            this.x.setDataAtIndex(index, x);
-            this.y.setDataAtIndex(index, y);
+            this._x.setDataAtIndex(index, x);
+            this._y.setDataAtIndex(index, y);
         }
 
         /**
          * Clears all pre-computed values
          */
         private clearProperties() {
-            this.covariance = undefined;
-            this.covariancePop = undefined;
-            this.correlation = undefined;
-            this.correlationPop = undefined;
+            this._covariance = undefined;
+            this._covariancePop = undefined;
+            this._correlation = undefined;
+            this._correlationPop = undefined;
         }
 
         /**
@@ -206,7 +206,7 @@ namespace stats {
          * @returns the average x value of the data
          */
         getMeanX(): number {
-            return this.x.getMean();
+            return this._x.mean;
         }
 
         /**
@@ -215,7 +215,7 @@ namespace stats {
          * @returns the average y value of the data
          */
         getMeanY(): number {
-            return this.y.getMean();
+            return this._y.mean;
         }
 
         /**
@@ -224,7 +224,7 @@ namespace stats {
          * @returns the min x value of the data
          */
         getMinX(): number {
-            return this.x.getMin();
+            return this._x.min;
         }
 
         /**
@@ -233,7 +233,7 @@ namespace stats {
          * @returns the min y value of the data
          */
         getMinY(): number {
-            return this.y.getMin();
+            return this._y.min;
         }
 
         /**
@@ -242,7 +242,7 @@ namespace stats {
          * @returns the max x value of the data
          */
         getMaxX(): number {
-            return this.x.getMax();
+            return this._x.max;
         }
 
         /**
@@ -251,7 +251,7 @@ namespace stats {
          * @returns the max y value of the data
          */
         getMaxY(): number {
-            return this.y.getMax();
+            return this._y.max;
         }
 
         /**
@@ -260,7 +260,7 @@ namespace stats {
          * @returns the total sum of the x axis of the data
          */
         getSumX(): number {
-            return this.x.getSum();
+            return this._x.sum;
         }
 
         /**
@@ -269,7 +269,7 @@ namespace stats {
          * @returns the total sum of the y axis of the data
          */
         getSumY(): number {
-            return this.y.getSum();
+            return this._y.sum;
         }
 
         /**
@@ -278,7 +278,7 @@ namespace stats {
          * @returns the amount of data points in the data set
          */
         get length(): number {
-            return this.x.getCount();
+            return this._x.length;
         }
 
         /**
@@ -287,7 +287,7 @@ namespace stats {
          * @returns the sample variance of the x axis of the data
          */
         getVarianceX(): number {
-            return this.x.getVariance();
+            return this._x.variance;
         }
 
         /**
@@ -296,7 +296,7 @@ namespace stats {
          * @returns the sample variance of the y axis of the data
          */
         getVarianceY(): number {
-            return this.y.getVariance();
+            return this._y.variance;
         }
 
         /**
@@ -305,7 +305,7 @@ namespace stats {
          * @returns the sample standard deviation of the x axis of the data
          */
         getStandardDeviationX(): number {
-            return this.x.getStandardDeviation();
+            return this._x.standardDeviation;
         }
 
         /**
@@ -314,7 +314,7 @@ namespace stats {
          * @returns the sample standard deviation of the y axis of the data
          */
         getStandardDeviationY(): number {
-            return this.y.getStandardDeviation();
+            return this._y.standardDeviation;
         }
 
         /**
@@ -323,7 +323,7 @@ namespace stats {
          * @returns the population variance of the x axis of the data
          */
         getVarianceXPopulation(): number {
-            return this.x.getVariancePopulation();
+            return this._x.variancePopulation;
         }
 
         /**
@@ -332,7 +332,7 @@ namespace stats {
          * @returns the population variance of the y axis of the data
          */
         getVarianceYPopulation(): number {
-            return this.y.getVariancePopulation();
+            return this._y.variancePopulation;
         }
 
         /**
@@ -341,7 +341,7 @@ namespace stats {
          * @returns the population standard deviation of the x axis of the data
          */
         getStandardDeviationXPopulation(): number {
-            return this.x.getStandardDeviationPopulation();
+            return this._x.standardDeviationPopulation;
         }
 
         /**
@@ -350,7 +350,7 @@ namespace stats {
          * @returns the population standard deviation of the y axis of the data
          */
         getStandardDeviationYPopulation(): number {
-            return this.y.getStandardDeviationPopulation();
+            return this._y.standardDeviationPopulation;
         }
 
         /**
@@ -382,14 +382,14 @@ namespace stats {
          * @returns the sample covariance of the data
          */
         getCovariance(): number {
-            if (!this.covariance) {
+            if (!this._covariance) {
                 let sum: number = 0;
                 for (let i = 0; i < this.length; i++) {
                     sum += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
                 }
-                this.covariance = sum / (this.length - 1);
+                this._covariance = sum / (this.length - 1);
             }
-            return this.covariance;
+            return this._covariance;
         }
         
         /**
@@ -398,14 +398,14 @@ namespace stats {
          * @returns the population covariance of the data
          */
         getCovariancePopulation(): number {
-            if (!this.covariance) {
+            if (!this._covariance) {
                 let sum: number = 0;
                 for (let i = 0; i < this.length; i++) {
                     sum += (this.getXAtIndex(i) - this.getMeanX()) * (this.getYAtIndex(i) - this.getMeanY());
                 }
-                this.covariance = sum / this.length;
+                this._covariance = sum / this.length;
             }
-            return this.covariancePop;
+            return this._covariancePop;
         }
 
         /**
@@ -414,12 +414,12 @@ namespace stats {
          * @returns the sample correlation of the data
          */
         getCorrelation(): number {
-            if (!this.correlation) {
-                this.correlation = this.getCovariance() 
-                    / (this.x.getStandardDeviation() 
-                    * this.y.getStandardDeviation());
+            if (!this._correlation) {
+                this._correlation = this.getCovariance() 
+                    / (this._x.standardDeviation 
+                    * this._y.standardDeviation);
             }
-            return this.correlation;
+            return this._correlation;
         }
 
         /**
@@ -428,12 +428,12 @@ namespace stats {
          * @returns the population correlation of the data
          */
         getCorrelationPopulation(): number {
-            if (!this.correlationPop) {
-                this.correlationPop = this.getCovariancePopulation() 
-                    / (this.x.getStandardDeviationPopulation() 
-                    * this.y.getStandardDeviationPopulation());
+            if (!this._correlationPop) {
+                this._correlationPop = this.getCovariancePopulation() 
+                    / (this._x.standardDeviationPopulation 
+                    * this._y.standardDeviationPopulation);
             }
-            return this.correlationPop;
+            return this._correlationPop;
         }
         
     }

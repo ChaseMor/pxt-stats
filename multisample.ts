@@ -8,7 +8,7 @@ namespace stats {
         /**
          * The data being sampled
          */
-        private data: DataSample[];
+        private _data: DataSample[];
 
         /**
          * @param numOfDimensions
@@ -27,7 +27,7 @@ namespace stats {
             }
 
             for (let i = 0; i < data.length; i++) {
-                this.data[i] = new DataSample(data[i].slice(0, minWidth));
+                this._data[i] = new DataSample(data[i].slice(0, minWidth));
             }
         }
 
@@ -39,7 +39,7 @@ namespace stats {
         addData(newData: number[]) {
             if (newData.length == this.getNumOfDim()) {
                 for (let i = 0; i < this.getNumOfDim(); i++) {
-                    this.data[i].addData(newData[i]);
+                    this._data[i].addData(newData[i]);
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace stats {
         concatData(newData: number[][]) {
             if (newData.length == this.getNumOfDim()) {
                 for (let i = 0; i < this.getNumOfDim(); i++) {
-                    this.data[i].concatData(newData[i]);
+                    this._data[i].concatData(newData[i]);
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace stats {
             if (index >= this.getNumOfDim() || index < 0) {
                 return undefined;
             } else {
-                return this.data[index];
+                return this._data[index];
             }
         }
 
@@ -84,7 +84,7 @@ namespace stats {
             }
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getDataAtIndex(index));
+                out.push(this._data[i].getDataAtIndex(index));
             }
             return out;
         }
@@ -103,7 +103,7 @@ namespace stats {
                 return;
             }
             for (let i = 0; i < data.length; i++) {
-                this.data[i].setDataAtIndex(index, data[i]);
+                this._data[i].setDataAtIndex(index, data[i]);
             }
         }
 
@@ -115,7 +115,7 @@ namespace stats {
         getMean(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getMean());
+                out.push(this._data[i].mean);
             }
             return out;
         }
@@ -128,7 +128,7 @@ namespace stats {
         getMin(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getMin());
+                out.push(this._data[i].min);
             }
             return out;
         }
@@ -141,7 +141,7 @@ namespace stats {
         getMax(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getMax());
+                out.push(this._data[i].max);
             }
             return out;
         }
@@ -154,7 +154,7 @@ namespace stats {
         getSum(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getSum());
+                out.push(this._data[i].sum);
             }
             return out;
         }
@@ -165,7 +165,7 @@ namespace stats {
          * @returns the number of dimensions that the data set stores
          */
         getNumOfDim(): number {
-            return this.data.length;
+            return this._data.length;
         }
 
         /**
@@ -176,7 +176,7 @@ namespace stats {
         getVariance(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getVariance());
+                out.push(this._data[i].variance);
             }
             return out;
         }
@@ -189,7 +189,7 @@ namespace stats {
         getStandardDeviation(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getStandardDeviation());
+                out.push(this._data[i].standardDeviation);
             }
             return out;
         }
@@ -202,7 +202,7 @@ namespace stats {
         getVariancePopulation(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getVariancePopulation());
+                out.push(this._data[i].variancePopulation);
             }
             return out;
         }
@@ -215,7 +215,7 @@ namespace stats {
         getStandardDeviationPopulation(): number[] {
             let out: number[] = [];
             for (let i = 0; i < this.getNumOfDim(); i++) {
-                out.push(this.data[i].getStandardDeviationPopulation());
+                out.push(this._data[i].standardDeviationPopulation);
             }
             return out;
         }
@@ -230,8 +230,8 @@ namespace stats {
                 // simple selection sort.
                 for (let i = 0; i < this.getNumOfDim() - 1; i++) {
                     for (let j = i + 1; j < this.getNumOfDim(); j++) {
-                        if (this.data[dimension].getDataAtIndex(i) > this.data[dimension].getDataAtIndex(j)) {
-                            swap(this.data, i, j);
+                        if (this._data[dimension].getDataAtIndex(i) > this._data[dimension].getDataAtIndex(j)) {
+                            swap(this._data, i, j);
                         }
                     }
                 }
@@ -252,7 +252,7 @@ namespace stats {
          */
         get length(): number {
             if (this.getNumOfDim() > 0) {
-                return this.data[0].getCount();
+                return this._data[0].length;
             } else {
                 return 0;
             }
