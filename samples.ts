@@ -116,7 +116,7 @@ namespace stats {
             // simple selection sort.
             for (let i = 0; i < this.length - 1; ++i) {
                 for (let j = i + 1; j < this.length; ++j) {
-                    if (arr[i] > arr[j]) {
+                    if (this._data[i] > this._data[j]) {
                         let temp: number = this._data[i];
                         this._data[i] = this._data[j];
                         this._data[j] = temp;
