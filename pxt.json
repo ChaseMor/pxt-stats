@@ -1,6 +1,6 @@
 {
     "name": "pxt-stats",
-    "version": "0.0.0",
+    "version": "0.1.1",
     "description": "",
     "dependencies": {
         "device": "*"
@@ -17,6 +17,5 @@
     "testFiles": [
         "test.ts"
     ],
-    "public": false,
-    "installedVersion": "workspace:c5a8f515-54ed-4dbf-6938-235f5a074ad6"
+    "public": false
 }
