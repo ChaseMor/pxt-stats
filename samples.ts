@@ -123,6 +123,7 @@ namespace stats {
                     }
                 }
             }
+            this._isSorted = true;
         }
 
         /**
