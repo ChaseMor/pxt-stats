@@ -36,6 +36,16 @@ namespace stats {
         private _correlationPop: number;
 
         /**
+         * The slope of the line of best fit
+         */
+        private _slope: number;
+
+        /**
+         * The intercept of the line of best fit
+         */
+        private _intercept: number;
+
+        /**
          * @param xValues the x values of the data
          * @param yValues the y values of the data
          */
@@ -198,6 +208,8 @@ namespace stats {
             this._covariancePop = undefined;
             this._correlation = undefined;
             this._correlationPop = undefined;
+            this._slope = undefined;
+            this._intercept = undefined;
         }
 
         /**
@@ -370,10 +382,34 @@ namespace stats {
                 squareX += (this.getXAtIndex(i) - this.meanX) ** 2;
             }
             slope /= squareX;
+            this._slope = slope;
+            this._intercept = this.meanY - slope * this.meanX;
 
-            let intercept: number = this.meanY - slope * this.meanX;
+            return [this._slope, this._intercept];
+        }
 
-            return [slope, intercept];
+        /**
+         * Gets the slope of the line of best fit
+         * 
+         * @returns the slope of the line of best fit
+         */
+        get slope(): number {
+            if (!this._slope) {
+                this.lineOfBestFit;
+            }
+            return this._slope;
+        }
+
+        /**
+         * Gets the intercept of the line of best fit
+         * 
+         * @returns the intercept of the line of best fit
+         */
+        get intercept(): number {
+            if (!this._intercept) {
+                this.lineOfBestFit;
+            }
+            return this._intercept;
         }
         
         /**
@@ -435,6 +471,5 @@ namespace stats {
             }
             return this._correlationPop;
         }
-        
     }
 } 

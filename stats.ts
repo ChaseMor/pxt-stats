@@ -1,7 +1,5 @@
 namespace stats {
 
-
-    
     /**
      * Gets the mean value of the array
      * 
@@ -161,8 +159,31 @@ namespace stats {
         let sample = new DataSet(xValues, yValues);
         return sample.lineOfBestFit;
     }
-    
 
+    /**
+     * Gets the slope of the line of best fit of the two arrays
+     * 
+     * @param xValues the x values used
+     * @param yValues the y values used
+     * @returns the slope of the line of best fit of the two arrays
+     */
+    export function slope(xValues: number[], yValues: number[]) {
+        let sample = new DataSet(xValues, yValues);
+        return sample.slope;
+    }
+
+    /**
+     * Gets the intercept of the line of best fit of the two arrays
+     * 
+     * @param xValues the x values used
+     * @param yValues the y values used
+     * @returns the intercept of the line of best fit of the two arrays
+     */
+    export function intercept(xValues: number[], yValues: number[]) {
+        let sample = new DataSet(xValues, yValues);
+        return sample.intercept;
+    }
+    
     /**
      * Sorts the given Array
      * 
