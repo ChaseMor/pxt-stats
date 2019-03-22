@@ -383,7 +383,7 @@ namespace stats {
             for (let i = 0; i < this._data.length; i++) {
                 this._data[i] = (this._data[i] - mean) / std;
             }
-            this.clearProperties;
+            this.clearProperties();
         }
 
         /**
@@ -396,7 +396,7 @@ namespace stats {
             for (let i = 0; i < this._data.length; i++) {
                 this._data[i] = (this._data[i] - mean) / std;
             }
-            this.clearProperties;
+            this.clearProperties();
         }
 
         /**
@@ -409,7 +409,7 @@ namespace stats {
             for (let i = 0; i < this._data.length; i++) {
                 this._data[i] = (this._data[i] - min) / diff;
             }
-            this.clearProperties;
+            this.clearProperties();
         }
 
         /**
