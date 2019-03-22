@@ -350,5 +350,33 @@ namespace stats {
             this._min = min;
             this._max = max;
         }
+
+        /**
+         * Standardizes the data to have mean 0 and standard deviation 1
+         * 
+         * @param population whether or not the data should be standardized as a population or sample
+         */
+        standardize(population?: boolean) {
+            const std: number = population ? this.standardDeviationPopulation : this.standardDeviation;
+            const mean: number = this.mean;
+
+            for (let i = 0; i < this._data.length; i++) {
+                this._data[i] = (this._data[i] - mean) / std;
+            }
+            this.clearProperties;
+        }
+
+        /**
+         * Normalizes the data to have min 0 and max 1
+         */
+        normalize() {
+            const min = this.min;
+            const diff = this.max - this.min;
+
+            for (let i = 0; i < this._data.length; i++) {
+                this._data[i] = (this._data[i] - min) / diff;
+            }
+            this.clearProperties;
+        }
     }
 }
