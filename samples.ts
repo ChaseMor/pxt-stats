@@ -56,6 +56,26 @@ namespace stats {
         private _max: number;
 
         /**
+         * The skewness of the data (as a sample)
+         */
+        private _skewness: number;
+
+        /**
+         * The skewness of the data (as a population)
+         */
+        private _skewnessPop: number;
+        
+        /**
+         * The skewness of the data (as a sample)
+         */
+        private _coeffOfVar: number;
+
+        /**
+         * The skewness of the data (as a population)
+         */
+        private _coeffOfVarPop: number;
+
+        /**
          * Whether or not the sample is sorted
          */
         private _isSorted: boolean;
@@ -106,6 +126,8 @@ namespace stats {
             this._varPop = undefined;
             this._min = undefined;
             this._max = undefined;
+            this._skewness = undefined;
+            this._skewnessPop = undefined;
             this._isSorted = undefined;
         }
 
@@ -377,6 +399,62 @@ namespace stats {
                 this._data[i] = (this._data[i] - min) / diff;
             }
             this.clearProperties;
+        }
+
+        /**
+         * Gets the skewness of the sample
+         * 
+         * @returns the skewness of the sample
+         */
+        get skewness() {
+            if (!this._skewness) {
+                let cumm: number = 0;
+                for (let x of this._data) {
+                    cumm += ((x - this.mean) / this.standardDeviation) ** 3;
+                }
+                this._skewness = cumm * (this.length / ((this.length - 1) * (this.length - 1)));
+            }
+            return this._skewness;
+        }
+
+        /**
+         * Gets the skewness of the population
+         * 
+         * @returns the skewness of the population
+         */
+        get skewnessPopulation() {
+            if (!this._skewnessPop) {
+                let cumm: number = 0;
+                for (let x of this._data) {
+                    cumm += ((x - this.mean) / this.standardDeviationPopulation) ** 3;
+                }
+                this._skewnessPop = cumm * (this.length / ((this.length - 1) * (this.length - 1)));
+            }
+            return this._skewnessPop;
+        }
+
+        /**
+         * Gets the coefficient of variation of the sample
+         * 
+         * @returns the coefficient of variation of the sample
+         */
+        get coeffOfVariation() {
+            if (!this._coeffOfVar) {
+                this._coeffOfVar = this.standardDeviation / this.mean;
+            }
+            return this._coeffOfVar;
+        }
+
+        /**
+         * Gets the coefficient of variation of the population
+         * 
+         * @returns the coefficient of variation of the population
+         */
+        get coeffOfVariationPopulation() {
+            if (!this._coeffOfVarPop) {
+                this._coeffOfVarPop = this.standardDeviationPopulation / this.mean;
+            }
+            return this._coeffOfVarPop;
         }
     }
 }
