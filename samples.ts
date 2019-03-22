@@ -374,12 +374,23 @@ namespace stats {
         }
 
         /**
-         * Standardizes the data to have mean 0 and standard deviation 1
-         * 
-         * @param population whether or not the data should be standardized as a population or sample
+         * Standardizes the data to have mean 0 and sample standard deviation 1
          */
-        standardize(population?: boolean) {
-            const std: number = population ? this.standardDeviationPopulation : this.standardDeviation;
+        standardize() {
+            const std: number = this.standardDeviation;
+            const mean: number = this.mean;
+
+            for (let i = 0; i < this._data.length; i++) {
+                this._data[i] = (this._data[i] - mean) / std;
+            }
+            this.clearProperties;
+        }
+
+        /**
+         * Standardizes the data to have mean 0 and population standard deviation 1
+         */
+        standardizePopulation() {
+            const std: number = this.standardDeviationPopulation;
             const mean: number = this.mean;
 
             for (let i = 0; i < this._data.length; i++) {

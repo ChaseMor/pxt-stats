@@ -100,6 +100,50 @@ namespace stats {
     }
 
     /**
+     * Gets the sample skewness of the array
+     * 
+     * @param data the data that the max is calculated from
+     * @returns the sample skewness of the array
+     */
+    export function skewness(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.skewness;
+    }
+
+    /**
+     * Gets the population skewness of the array
+     * 
+     * @param data the data that the max is calculated from
+     * @returns the population skewness of the array
+     */
+    export function skewnessPopulation(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.skewnessPopulation;
+    }
+
+    /**
+     * Gets the sample coefficient of variationof the array
+     * 
+     * @param data the data that the max is calculated from
+     * @returns the sample coefficient of variationof the array
+     */
+    export function coeffOfVariation(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.coeffOfVariation;
+    }
+
+    /**
+     * Gets the population coefficient of variationof the array
+     * 
+     * @param data the data that the max is calculated from
+     * @returns the population coefficient of variationof the array
+     */
+    export function coeffOfVariationPopulation(data: number[]) {
+        let sample = new DataSample(data);
+        return sample.coeffOfVariationPopulation;
+    }
+
+    /**
      * Gets the sample covariance of the two arrays
      * 
      * @param xValues the x values used
@@ -193,6 +237,42 @@ namespace stats {
     export function sort(data: number[]) {
         let sample = new DataSample(data);
         sample.sort();
+        return sample.getData();
+    }
+    
+    /**
+     * Normalizes the given Array to be between 0 and 1
+     * 
+     * @param data the data that is to be normalized
+     * @returns the normalized array
+     */
+    export function normalize(data: number[]) {
+        let sample = new DataSample(data);
+        sample.normalize();
+        return sample.getData();
+    }
+    
+    /**
+     * Standardizes the given Array as a sample
+     * 
+     * @param data the data that is to be standardized
+     * @returns the standardized array
+     */
+    export function standardize(data: number[]) {
+        let sample = new DataSample(data);
+        sample.standardize();
+        return sample.getData();
+    }
+
+    /**
+     * Standardizes the given Array as a population
+     * 
+     * @param data the data that is to be standardized
+     * @returns the standardized array
+     */
+    export function standardizePopultaion(data: number[]) {
+        let sample = new DataSample(data);
+        sample.standardizePopulation();
         return sample.getData();
     }
 
